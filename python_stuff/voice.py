@@ -41,19 +41,16 @@ class VoiceModule:
                 return transcription
     
     
-    def run_voice_step(self, ):
+    def run_voice_step(self):
         # Ensure you have configured your OpenAI client before calling this
-        transcription = self.record_and_transcriberecord_and_transcribe(10)
+        transcription = self.record_and_transcribe(10)
 
         speech_commands = transcription.text
 
         prompt = f'''
         You are a controller for a voice-controlled drone. Your job is to interpret transcriptions of speech from the user and translate the text to commands that can be run on the drone.
 
-
         You can run the following commands on the done:
-
-
 
         def flip(self, direction: str = "f"):
                 """Flips the drone in the given direction.
@@ -68,13 +65,14 @@ class VoiceModule:
                 Moves the drone in the specified direction by a certain distance.
                 
                 Args:
-                    direction (str): Direction to move. Options: "left", "right", "forward" (default), "backward".
+                    direction (str): Direction to move. Options: "left", "right", "forward" (default), "backward", "up", "down".
                     distance (int): Distance to move in centimeters. Range: 20 to 500 (default 50).
                 """
 
             def land(self):
                 """Lands the drone automatically."""
 
+                
             def rotate_clockwise(self, degrees: int = 90):
                 """
                 Rotates the drone clockwise by a specified number of degrees.
@@ -119,7 +117,9 @@ class VoiceModule:
             {"role": "user", "content": f"{prompt}"}
         ]
         )
-        print(response.choices[0].message.content)
+
+
+        return response.choices[0].message.content
 
 
 
