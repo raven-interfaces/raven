@@ -1,12 +1,13 @@
-from djitellopy import tello
+from djitellopy import Tello
 import cv2
-
 import json
 
 
 class TelloController:
 
     def __init__(self) -> None:
+        self.tello = Tello()
+        self.tello.connect()
         pass
 
     def read_json(self, json_data: str) -> dict:
@@ -19,35 +20,35 @@ class TelloController:
 
         for command in commands:
             if (command["function"] == "takeoff") :
-                tello.takeoff()
+                self.tello.takeoff()
 
             elif (command["function"] == "move"):
                 amount = command["arguments"]["distance"]
                 direction = command["arguments"]["direction"]
-                tello.move(direction, amount)
+                self.tello.move(direction, amount)
 
             elif (command["function"] == "land"):
-                tello.land()
+                self.tello.land()
 
             elif (command["function"] == "rotate_clockwise"):
                 degrees = command["arguments"]["degrees"]
-                tello.rotate_clockwise(degrees)
+                self.tello.rotate_clockwise(degrees)
 
             elif (command["function"] == "rotate_counter_clockwise"):
                 degrees = command["arguments"]["degrees"]
-                tello.rotate_counter_clockwise(degrees)
+                self.tello.rotate_counter_clockwise(degrees)
 
     def land(self):
-        tello.land()
+        self.tello.land()
 
     def stop(self):
-        tello.stop()
+        self.tello.stop()
 
     def emergency(self):
-        tello.emergency()
+        self.tello.emergency()
 
     
-# me = tello.Tello()
+# me = self.tello.Tello()
 # #cap = cv2.VideoCapture(0)
 # me.connect()
 # print(me.get_battery())

@@ -14,10 +14,10 @@ def main():
 
     voice = VoiceModule()
     response = voice.run_voice_step()
-    print(response)
+    print(response) 
 
     tello_controller.control_tello(response)
-
+    
     tello_controller.stop()
     tello_controller.land()
 
