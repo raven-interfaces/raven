@@ -1,5 +1,7 @@
-Airpods Control/.DS_Store
+__pycache__/
 .DS_Store
 config.py
 python_stuff/config.py
 testfiles/
+Airpods Control/.DS_Store
+venv/
