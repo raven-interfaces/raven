@@ -46,7 +46,7 @@ class TelloController:
         return img
         
 
-    def get_camer_frame_base64(self):
+    def get_camera_frame_base64(self):
         img = self.get_camera_frame()
         _, img_encoded = cv2.imencode('.jpg', img)
         return base64.b64encode(img_encoded).decode('utf-8')
