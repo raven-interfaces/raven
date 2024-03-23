@@ -83,6 +83,7 @@ class GestureModule:
 
         If the user is holding up a fist, it means you should do a backward flip.
 
+        
         Please also ensure that the JSON is structured in the following form:
 
         "commands": [
