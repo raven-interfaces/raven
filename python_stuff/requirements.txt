@@ -52,3 +52,5 @@ tqdm==4.66.2
 typing_extensions==4.10.0
 urllib3==2.2.1
 vertexai==1.43.0
+
+djitellopy
