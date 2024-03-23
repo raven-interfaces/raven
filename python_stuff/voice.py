@@ -72,6 +72,10 @@ class VoiceModule:
             def land(self):
                 """Lands the drone automatically."""
 
+
+            def takeoff(self):
+                """Takes off the drone automatically."""
+
                 
             def rotate_clockwise(self, degrees: int = 90):
                 """
