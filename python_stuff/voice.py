@@ -92,8 +92,9 @@ class VoiceModule:
 
         Please return a list of function calls (and associated arguments) in JSON that you would make for the drone to satisfy following speech commands:
         
+        Note: To turn left, use rotate_counter_clockwise() and to turn right, use rotate_clockwise().
+        
         {speech_commands}
-
 
         Please also ensure that the JSON is structured in the following form:
 
