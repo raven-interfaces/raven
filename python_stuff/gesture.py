@@ -1,7 +1,6 @@
 import base64
 import openai
 from config import OPENAI_KEY
-import cv2
 import requests
 import json
 
@@ -19,8 +18,6 @@ class GestureModule:
 
 
     def process_frame(self, img_base64):
-        
-
         headers = {"Content-Type": "application/json", "Authorization": f"Bearer {OPENAI_KEY}"}
 
         prompt = f'''
@@ -49,8 +46,6 @@ class GestureModule:
 
         please only output the one string, and nothing else
         '''
-
-
         messages = [
             {
                 "role": "user",
@@ -68,45 +63,15 @@ class GestureModule:
                 ]
             }
         ]
-
-
         response = self.client.chat.completions.create(
             model = "gpt-4-vision-preview",
             messages = messages,
         )
-
-        json_response = response.choices[0].message.content
-        print(json_response)
-
+        str_response = response.choices[0].message.content
+        print(str_response)
         print("-----------------")
-        return json_response
+        return str_response
 
-
-
-
-
-        # response_str = response_json['choices'][0]['message']['content']
-
-
-        # print(response_json)
-        
-        # # convert string to json
-        # print(response_str)
-
-
-        # print(type(response_str))
-        # response_json = json.loads(response_str)
-        # print(response_json)
-
-        # print(())
-
-
-        # print(response)
-        # print("-----------------")
-        # print(response.json())
-        # return response.json()
-
-    
 
     def run_gesture_step(self, filename):
         base64_image = self.encode_image(filename)

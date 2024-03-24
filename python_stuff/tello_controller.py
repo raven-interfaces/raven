@@ -71,8 +71,7 @@ class TelloController:
                 self.tello.rotate_counter_clockwise(degrees)
                 print("rotate ccw")
 
-
-            time.sleep(1)
+            time.sleep(0.5)
             
         return "continue"
 
@@ -110,10 +109,8 @@ class TelloController:
         elif command_list[0] == "flip":
             self.tello.flip("f")
 
-
-
-        time.sleep(1)
-            
+        time.sleep(0.5)
+    
         return "continue"
     
 
@@ -142,40 +139,3 @@ class TelloController:
         return base64.b64encode(img_encoded).decode('utf-8')
 
         
-
-    # def get_camera_frame_base64(self):
-    #     img = self.get_camera_frame()
-    #     _, img_encoded = cv2.imencode('.jpg', img)
-    #     return base64.b64encode(img_encoded).decode('utf-8')
-        
-        
-
-    
-# from djitellopy import tello
-# import cv2
-
-# me = tello.Tello()
-# #cap = cv2.VideoCapture(0)
-# me.connect()
-# print(me.get_battery())
-# me.streamon()
-
-
-# # while True:
-
-# for x in range(1000):
-#     img = me.get_frame_read().frame
-#     img = cv2.resize(img, (360, 240))
-    
-#     b, g, r = cv2.split(img)
-#     temp = b
-#     b = r
-#     r = temp
-#     img = cv2.merge((b, g, r))
-
-#     cv2.imshow("results", img)
-
-# cv2.imwrite("picture.png", img)
-
-
-# cv2.waitKey(1)
