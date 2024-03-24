@@ -5,11 +5,13 @@ from tello_controller import TelloController
 import sys
 import pygame
 
+import base64
+
 
 def main():
     tello_controller = TelloController()
 
-    modality_type = input("Enter modality type")
+    modality_type = input("Enter modality type: ")
 
     if modality_type == "voice":
         voice = VoiceModule()
@@ -24,6 +26,11 @@ def main():
     
     elif modality_type == "gesture":
         gesture = GestureModule()
+        tello_controller.run_camera_buffer()
+
+        while True:
+            img = tello_controller.get_camera_frame()
+            img_base64 = tello_controller.encode_img_base64(img)
         
 
 

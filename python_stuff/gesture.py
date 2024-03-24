@@ -123,8 +123,12 @@ class GestureModule:
         response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
         return response.json()
 
-    
-    def run_gesture_step(self, filename):
-        base64_image = self.encode_image(filename)
+    def run_gesture_step(self, img_base64):
+        
         response = self.process_frame(base64_image)
         print(response)
+
+    # def run_gesture_step(self, filename):
+    #     base64_image = self.encode_image(filename)
+    #     response = self.process_frame(base64_image)
+    #     print(response)

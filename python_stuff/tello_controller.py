@@ -13,6 +13,7 @@ class TelloController:
         self.tello = Tello()
         self.tello.connect()
         self.tello.streamon()
+        self.img_count = 0
         pass
 
     def read_json(self, json_data: str) -> dict:
@@ -54,18 +55,37 @@ class TelloController:
             time.sleep(1)
             
         return "continue"
+    
+
+    def run_camera_buffer(self):
+        for i in range(1000):
+            self.tello.get_frame_read().frame
 
 
     def get_camera_frame(self):
         img = self.tello.get_frame_read().frame
-        cv2.imshow("results", img)
+        img = cv2.resize(img, (360, 240))
+        b, g, r = cv2.split(img)
+        temp = b
+        b = r
+        r = temp
+        img = cv2.merge((b, g, r))
+        file_name = "images/picture" + str(self.img_count) + ".png"
+        self.img_count += 1
+        cv2.imwrite("file_name", img)
         return img
-        
 
-    def get_camera_frame_base64(self):
-        img = self.get_camera_frame()
+    
+    def encode_img_base64(self, img):
         _, img_encoded = cv2.imencode('.jpg', img)
         return base64.b64encode(img_encoded).decode('utf-8')
+
+        
+
+    # def get_camera_frame_base64(self):
+    #     img = self.get_camera_frame()
+    #     _, img_encoded = cv2.imencode('.jpg', img)
+    #     return base64.b64encode(img_encoded).decode('utf-8')
         
         
 

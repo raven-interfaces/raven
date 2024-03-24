@@ -26,5 +26,5 @@ class AudioModule():
             print(f"Error playing {name}.mp3")
 
 
-audio = AudioModule()
-audio.play_snippet("turn_right")
+# audio = AudioModule()
+# audio.play_snippet("turn_right")
