@@ -36,34 +36,44 @@ def main():
         if not cap.isOpened():
             raise IOError("Cannot open webcam")
         
-
+        past_time = 0
         while True:
 
             print("capturing frame")
             ret, frame = cap.read()
             # cv2.imshow('Webcam Feed', frame)
 
+            current_time = time.time()
 
             file_name = "trip/picture.jpg"
             cv2.imwrite(file_name, frame)
 
-            img_base64 = encode_img_base64(frame)
-            commands_str = gesture.process_frame(img_base64)
+            if current_time - past_time > 5:
+                img_base64 = encode_img_base64(frame)
+                commands_str = gesture.process_frame(img_base64)
+
+                file_name_copy = "trip/picture_copy.jpg"
+                cv2.imwrite(file_name_copy, frame)
+
+                past_time = current_time
+
+                commands_arr = commands_str.split(",")
+                if "null" in commands_arr:
+                    add_to_trip("```\nnull\n```")
+                else:
+                    method_name = commands_arr[0]
+                    arguments = ",".join(commands_arr[1:])
 
 
-            commands_arr = commands_str.split(",")
-            if "null" in commands_arr:
-                add_to_trip("null \n")
-            else:
-                method_name = commands_arr[0]
-                arguments = ",".join(commands_arr[1:])
+                    add_to_trip(f"```\n{method_name}({arguments})\n```")
 
-                add_to_trip(f"``` \n {method_name}({arguments})\n```")
-
-            print(commands_str)
+                print(commands_str)
 
 
-            time.sleep(5)
+
+            # time.sleep(5)
+
+            cv2.waitKey(1)
 
 
             # run_commands_str(commands_str)
