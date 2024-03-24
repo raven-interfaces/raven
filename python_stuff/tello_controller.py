@@ -49,13 +49,13 @@ class TelloController:
                 direction = command["arguments"]["direction"]
 
                 if direction == "f":
-                    self.audio_module.play_snippet("flip_forward")
+                    self.audio_module.play_snippet("flipping_forward")
                 elif direction == "b":
-                    self.audio_module.play_snippet("flip_backward")
+                    self.audio_module.play_snippet("flipping_backward")
                 elif direction == "l":
-                    self.audio_module.play_snippet("flip_left")
+                    self.audio_module.play_snippet("flipping_left")
                 elif direction == "r":
-                    self.audio_module.play_snippet("flip_right")
+                    self.audio_module.play_snippet("flipping_right")
                 self.tello.flip(direction)
                 print("flip")
 
