@@ -1,28 +1,19 @@
 from voice import VoiceModule
 from gesture import GestureModule
-
 from tello_controller import TelloController
 import sys
-import pygame
 
-import base64
-
+tello_controller = TelloController()
 
 def main():
-    tello_controller = TelloController()
-
     modality_type = input("Enter modality type: ")
-
     if modality_type == "voice":
         voice = VoiceModule()
 
         while True:
             commands_json = voice.run_voice_step()
             print(commands_json)
-            status = tello_controller.control_tello(commands_json)
-            if status == "done":
-                print("Done")
-                sys.exit(0)
+            run_commands(commands_json)
     
     elif modality_type == "gesture":
         gesture = GestureModule()
@@ -31,13 +22,15 @@ def main():
         while True:
             img = tello_controller.get_camera_frame()
             img_base64 = tello_controller.encode_img_base64(img)
-        
+            commands_json = gesture.process_frame(img_base64)
+            print(commands_json)
+            run_commands(commands_json)
 
-
-    
-
-
-    
+def run_commands(commands_json):
+    status = tello_controller.control_tello(commands_json)
+    if status == "done":
+        print("Done")
+        sys.exit(0)
 
     
     # gesture.run_gesture_step("test_files/test.jpeg")

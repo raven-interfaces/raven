@@ -16,7 +16,7 @@ class GestureModule:
             return base64.b64encode(image_file.read()).decode('utf-8')
 
 
-    def process_frame(self, base64_image):
+    def process_frame(self, img_base64):
         
 
         headers = {"Content-Type": "application/json", "Authorization": f"Bearer {OPENAI_KEY}"}
@@ -110,7 +110,7 @@ class GestureModule:
                     {
                     "type": "image_url",
                     "image_url": {
-                        "url": f"data:image/jpeg;base64,{base64_image}"
+                        "url": f"data:image/jpeg;base64,{img_base64}"
                     }
                     }
                 ]
@@ -123,12 +123,9 @@ class GestureModule:
         response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
         return response.json()
 
-    def run_gesture_step(self, img_base64):
-        
+    
+
+    def run_gesture_step(self, filename):
+        base64_image = self.encode_image(filename)
         response = self.process_frame(base64_image)
         print(response)
-
-    # def run_gesture_step(self, filename):
-    #     base64_image = self.encode_image(filename)
-    #     response = self.process_frame(base64_image)
-    #     print(response)
