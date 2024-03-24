@@ -1,0 +1,16 @@
+# Flight Log 🐦‍⬛
+### Tanscription: Hello, this is a test. Can you go forward?
+### Parsed commands
+```{
+    "commands": [
+        {
+            "function": "move",
+            "arguments": {
+                "direction": "forward",
+                "distance": 50
+            }
+        }
+    ]
+}```
+![Alt text](test_files/palm.jpeg)
+<hr>
