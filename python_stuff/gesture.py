@@ -24,78 +24,28 @@ class GestureModule:
 
         prompt = f'''
         You are a controller for a gesture-controlled drone. Your job is to interpret images of gestures from the user and translate the text to commands that can be run on the drone.
-
-
-        You can run the following commands on the done:
-
-        def flip( direction: str = "f"):
-                """Flips the drone in the given direction.
                 
-                Args:
-                    direction (str): Direction to flip. Options: "l" (left), "r" (right), 
-                                    "f" (forward, default), "b" (backward).
-                """
+        Please output the function that would make for the drone to satisfy the gesture command:
 
-            def move(direction: str = "forward", distance: int = 50):
-                """
-                Moves the drone in the specified direction by a certain distance.
-                
-                Args:
-                    direction (str): Direction to move. Options: "left", "right", "forward" (default), "backward", "up", "down".
-                    distance (int): Distance to move in centimeters. Range: 20 to 500 (default 50).
-                """
+        your output should be only one string, with the function name, and arguments comma separated. For example, if you want to move the drone forward by 50 cm, you should output "move,forward,50"
 
-            def land():
-                """Lands the drone automatically."""
+        If the user is holding their palm facing towards you, it means you should return "land"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
 
-            def rotate_clockwise(degrees: int = 90):
-                """
-                Rotates the drone clockwise by a specified number of degrees.
-                
-                Args:
-                    degrees (int): Degrees to rotate. Range: 0 to 360 (default 90).
-                """
-
-            def rotate_counter_clockwise(degrees: int = 90):
-                """
-                Rotates the drone counter-clockwise by a specified number of degrees.
-                
-                Args:
-                    degrees (int): Degrees to rotate. Range: 0 to 360 (default 90).
-                """
-
-
-        Please a function call (and associated arguments) in JSON that you would make for the drone to satisfy following gesture commands:
-
-        If the user is holding their palm facing towards you, it means you should terminate the flight and land using the land() method.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
-
-        If the user is pointing with one finger, it means you should use the move() function to move in the direction the user is pointing.
-        If the user is pointing up with one finger, the direction should be up.
-        If the user is pointing down with one finger, the direction should be down.
-        If the user is pointing left with one finger, the direction should be left.
-        If the user is pointing right with one finger, the direction should be right.
-        If the user is pointing towards the camera with one finger, the direction should be backward.
-        If the user is pointing directly away (towards themselves) with one finger, the direction should be forward.
-
+        If the user is pointing up with one finger, you should return "move,up,50".
+        If the user is pointing down with one finger, you should return "move,down,50".
+        If the user is pointing left with one finger, you should return "move,left,50".
+        If the user is pointing right with one finger, you should return "move,right,50".
+        If the user is pointing towards the camera with one finger, you should return "move,backward,50".
+        If the user is pointing directly away (towards themselves) with one finger, you should return "move,forward,50".
         
-        If the user is pointing with with three fingers, it means you should turn in the direction the user is pointing.
-        If the user is pointing with three fingers to the right, the direction should be clockwise.
-        If the user is pointing with three fingers to the left, the direction should be counter-clockwise.
-        
-        If the user is making a dab dance move motion, it means you should do a forward flip.
-        
-        Please also ensure that the JSON is structured in the following form:
+        If the user is pointing with with three fingers to the right, you should return "rotate_clockwise,90".
+        If the user is pointing with three fingers to the left, you should return "rotate_counter_clockwise,90".
 
-        "commands": [
-            {{
-            "function": "move",
-            "arguments": {{
-                "direction": "forward",
-                "distance": 50
-            }}
-            }}, ... ]
+        If the user is making a "dab" dance move, you should return "flip,f".
 
-        Don't include anything in your response except for the json object.
+        If there is no gesture recognized, you should output "null"
+
+        please only output the one string, and nothing else
         '''
 
 
