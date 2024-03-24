@@ -2,15 +2,81 @@ import sounddevice as sd
 from scipy.io.wavfile import write
 from openai import OpenAI
 from config import *
-from vad import VADModule
 import os
+import tempfile
+import pygame
+import threading
 
 client = OpenAI(api_key=OPENAI_KEY)
 
 class VoiceModule:
     def __init__(self):
-        # self.vad_module = VADModule()
-        pass
+        self.recording = None
+        self.fs = 44100  # Sample rate
+        self.is_recording = False
+        self.record_thread = None
+
+    def start_recording(self):
+        print("Recording started... Press any key to stop.")
+        self.recording = sd.rec(int(10 * self.fs), samplerate=self.fs, channels=1, dtype='float64', blocking=False)
+        self.is_recording = True
+
+    def stop_recording(self):
+        self.is_recording = False
+        if self.record_thread is not None:
+            self.record_thread.join()
+        sd.stop()
+        pygame.quit()
+        print("Recording finished")
+
+    def record_audio(self):
+        # Initialize Pygame for keyboard handling
+        pygame.init()
+        screen = pygame.display.set_mode((100, 100))  # Minimal window
+        pygame.display.set_caption("Press any key to start recording")
+
+        print("Waiting for keypress to start recording...")
+        waiting_for_start = True
+        while waiting_for_start:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    waiting_for_start = False
+                    self.start_recording()
+                    self.record_thread = threading.Thread(target=self.monitor_pygame_events)
+                    self.record_thread.start()
+                    return
+
+    def monitor_pygame_events(self):
+        while self.is_recording:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    self.stop_recording()
+                    return
+            sd.sleep(100)  # Check for events periodically
+
+    def save_recording(self, filename='recording.wav'):
+        if self.recording is not None:
+            write(filename, self.fs, self.recording)  # Save as WAV file
+
+    def record_and_transcribe(self):
+        # Record audio
+        self.record_audio()
+        
+        # Use a temporary file to avoid manual cleanup
+        with tempfile.NamedTemporaryFile(suffix='.wav') as tmpfile:
+            self.save_recording(filename=tmpfile.name)
+
+            # Open the temporary file in 'rb' mode for transcription
+            with open(tmpfile.name, 'rb') as audio_file:
+                transcription = client.audio.transcriptions.create(
+                    model="whisper-1", 
+                    file=audio_file
+                )
+                return transcription
+
+            # Assume transcription logic here
+
+
 
     # # Adjusted to record mono audio
     # def record_audio(self, duration=3, fs=44100):
@@ -25,28 +91,22 @@ class VoiceModule:
     #     write(filename, fs, recording)  # Save as WAV file
 
     # Main function to record and transcribe
-    def record_and_transcribe(self, duration=3):
-        # Record audio
-        # recording, fs = self.record_audio(duration=duration)
-        with open('snippet.wav', 'wb') as f:
-            transcription = client.audio.transcriptions.create(
-                model="whisper-1", 
-                file=f
-            )
-        
-        # delete the file
-        os.remove('snippet.wav')
-        
-        return transcription
+    # def record_and_transcribe(self):
+    #         # Record audio
+    #         self.record_audio()
+            
+    #         # Use a temporary file to avoid manual cleanup
+    #         with tempfile.NamedTemporaryFile(suffix='.wav') as tmpfile:
+    #             self.save_recording(filename=tmpfile.name)
     
 
-    def transcribe(self):
-        with open('output.wav', 'rb') as f:
-            transcription = client.audio.transcriptions.create(
-                model="whisper-1", 
-                file=f
-            )
-        return transcription
+    # def transcribe(self):
+    #     with open('output.wav', 'rb') as f:
+    #         transcription = client.audio.transcriptions.create(
+    #             model="whisper-1", 
+    #             file=f
+    #         )
+    #     return transcription
         
         # # Use a temporary file to avoid manual cleanup
         # with tempfile.NamedTemporaryFile(suffix='.wav') as tmpfile:
@@ -70,7 +130,7 @@ class VoiceModule:
 
         # Ensure you have configured your OpenAI client before calling this
         # transcription = self.record_and_transcribe(10)
-        transcription = self.transcribe()
+        transcription = self.record_and_transcribe()
 
         speech_commands = transcription.text
 
@@ -123,7 +183,9 @@ class VoiceModule:
 
         Please return a list of function calls (and associated arguments) in JSON that you would make for the drone to satisfy following speech commands:
         
-        Note: To turn left, use rotate_counter_clockwise() and to turn right, use rotate_clockwise().
+        To turn left, use rotate_counter_clockwise()
+        
+        To turn right, use rotate_clockwise().
         
         {speech_commands}
 
