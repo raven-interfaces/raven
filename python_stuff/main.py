@@ -3,12 +3,10 @@ from gesture import GestureModule
 
 from tello_controller import TelloController
 import sys
+import pygame
 
 
 def main():
-
-    
-    
     tello_controller = TelloController()
 
     modality_type = input("Enter modality type")
@@ -18,6 +16,7 @@ def main():
 
         while True:
             commands_json = voice.run_voice_step()
+            print(commands_json)
             status = tello_controller.control_tello(commands_json)
             if status == "done":
                 print("Done")
@@ -43,8 +42,8 @@ def main():
 
     # tello_controller.control_tello(response)
 
-    base64_img = tello_controller.get_camera_frame_base64()
-    gesture.process_frame(base64_img)
+    # base64_img = tello_controller.get_camera_frame_base64()
+    # gesture.process_frame(base64_img)
     
     # tello_controller.tello.stop()
     # tello_controller.tello.land()

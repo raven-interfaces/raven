@@ -4,6 +4,7 @@ import pyaudio
 import wave
 import io
 import time
+import os
 
 
 # Parameters
@@ -63,6 +64,9 @@ class VADModule():
 
 
     def run(self):
+        if os.path.exists("output.wav"):
+            os.remove("output.wav")
+
         # Open the stream with the callback
         stream = audio.open(format=FORMAT, channels=CHANNELS,
                             rate=RATE, input=True,
@@ -89,5 +93,5 @@ class VADModule():
 
 
 
-vad_module = VADModule()
-vad_module.run()
+# vad_module = VADModule()
+# vad_module.run()

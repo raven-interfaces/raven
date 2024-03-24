@@ -9,7 +9,8 @@ client = OpenAI(api_key=OPENAI_KEY)
 
 class VoiceModule:
     def __init__(self):
-        self.vad_module = VADModule()
+        # self.vad_module = VADModule()
+        pass
 
     # # Adjusted to record mono audio
     # def record_audio(self, duration=3, fs=44100):
@@ -60,10 +61,12 @@ class VoiceModule:
         #         )
         #         return transcription
     
-    
+
+
     def run_voice_step(self):
+
         # fetch audio from stream
-        self.vad_module.get_audio_chunk()
+        # self.vad_module.run()
 
         # Ensure you have configured your OpenAI client before calling this
         # transcription = self.record_and_transcribe(10)
@@ -149,8 +152,3 @@ class VoiceModule:
 
 
         return response.choices[0].message.content
-
-
-
-# print(transcription)
-# print(transcription.text)
