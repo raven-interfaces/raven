@@ -5,7 +5,7 @@ import sys
 import cv2
 import base64 
 
-tello_controller = TelloController()
+# tello_controller = TelloController()
 
 def main():
     modality_type = input("Enter modality type: ")
@@ -15,7 +15,7 @@ def main():
         while True:
             commands_json = voice.run_voice_step()
             print(commands_json)
-            run_commands(commands_json)
+            # run_commands(commands_json)
     
     elif modality_type == "gesture":
         gesture = GestureModule()
@@ -26,15 +26,14 @@ def main():
             ret, frame = cap.read()
             cv2.imshow('Webcam Feed', frame)
 
-            file_name = "images/picture" + str(tello_controller.img_count) + ".png"
-            tello_controller.img_count += 1
-
+            file_name = "images/picture.png"
+            
             cv2.imwrite(file_name, frame)
 
             img_base64 = encode_img_base64(frame)
             commands_str = gesture.process_frame(img_base64)
             print(commands_str)
-            run_commands_str(commands_str)
+            # run_commands_str(commands_str)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
