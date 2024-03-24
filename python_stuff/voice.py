@@ -1,49 +1,73 @@
 import sounddevice as sd
 from scipy.io.wavfile import write
-import tempfile
 from openai import OpenAI
 from config import *
+from vad import VADModule
+import os
 
 client = OpenAI(api_key=OPENAI_KEY)
 
 class VoiceModule:
     def __init__(self):
-        pass
+        self.vad_module = VADModule()
 
-    # Adjusted to record mono audio
-    def record_audio(self, duration=3, fs=44100):
-        print("Recording...")
-        recording = sd.rec(int(duration * fs), samplerate=fs, channels=1, dtype='float64')
-        sd.wait()  # Wait until recording is finished
-        print("Recording finished")
-        return recording, fs
+    # # Adjusted to record mono audio
+    # def record_audio(self, duration=3, fs=44100):
+    #     print("Recording...")
+    #     recording = sd.rec(int(duration * fs), samplerate=fs, channels=1, dtype='float64')
+    #     sd.wait()  # Wait until recording is finished
+    #     print("Recording finished")
+    #     return recording, fs
 
-    # Save recording to a WAV file
-    def save_recording(self, recording, fs, filename='recording.wav'):
-        write(filename, fs, recording)  # Save as WAV file
+    # # Save recording to a WAV file
+    # def save_recording(self, recording, fs, filename='recording.wav'):
+    #     write(filename, fs, recording)  # Save as WAV file
 
     # Main function to record and transcribe
     def record_and_transcribe(self, duration=3):
         # Record audio
-        recording, fs = self.record_audio(duration=duration)
+        # recording, fs = self.record_audio(duration=duration)
+        with open('snippet.wav', 'wb') as f:
+            transcription = client.audio.transcriptions.create(
+                model="whisper-1", 
+                file=f
+            )
         
-        # Use a temporary file to avoid manual cleanup
-        with tempfile.NamedTemporaryFile(suffix='.wav') as tmpfile:
-            self.save_recording(recording, fs, filename=tmpfile.name)
+        # delete the file
+        os.remove('snippet.wav')
+        
+        return transcription
+    
+
+    def transcribe(self):
+        with open('output.wav', 'rb') as f:
+            transcription = client.audio.transcriptions.create(
+                model="whisper-1", 
+                file=f
+            )
+        return transcription
+        
+        # # Use a temporary file to avoid manual cleanup
+        # with tempfile.NamedTemporaryFile(suffix='.wav') as tmpfile:
+        #     self.save_recording(recording, fs, filename=tmpfile.name)
 
 
-            # Open the temporary file in 'rb' mode for transcription
-            with open(tmpfile.name, 'rb') as audio_file:
-                transcription = client.audio.transcriptions.create(
-                    model="whisper-1", 
-                    file=audio_file
-                )
-                return transcription
+        #     # Open the temporary file in 'rb' mode for transcription
+        #     with open(tmpfile.name, 'rb') as audio_file:
+        #         transcription = client.audio.transcriptions.create(
+        #             model="whisper-1", 
+        #             file=audio_file
+        #         )
+        #         return transcription
     
     
     def run_voice_step(self):
+        # fetch audio from stream
+        self.vad_module.get_audio_chunk()
+
         # Ensure you have configured your OpenAI client before calling this
-        transcription = self.record_and_transcribe(10)
+        # transcription = self.record_and_transcribe(10)
+        transcription = self.transcribe()
 
         speech_commands = transcription.text
 
