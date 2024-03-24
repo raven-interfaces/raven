@@ -1,6 +1,7 @@
 import base64
 import openai
 from config import OPENAI_KEY
+import cv2
 import requests
 import json
 
@@ -29,13 +30,14 @@ class GestureModule:
 
         your output should be only one string, with the function name, and arguments comma separated. For example, if you want to move the drone forward by 50 cm, you should output "move,forward,50"
 
-        If the user is holding their palm facing towards you, it means you should return "land"                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
+        If the user is holding their palm facing towards you, it means you should return "land"
+        If the user has both hands up, it means you should return "takeoff"
 
         If the user is pointing up with one finger, you should return "move,up,50".
         If the user is pointing down with one finger, you should return "move,down,50".
         If the user is pointing left with one finger, you should return "move,left,50".
         If the user is pointing right with one finger, you should return "move,right,50".
-        If the user is pointing towards the camera with one finger, you should return "move,backward,50".
+        If the user is pointing towards the camera with one finger, you should return "move,back,50".
         If the user is pointing directly away (towards themselves) with one finger, you should return "move,forward,50".
         
         If the user is pointing with with three fingers to the right, you should return "rotate_clockwise,90".
@@ -77,43 +79,8 @@ class GestureModule:
         print(json_response)
 
         print("-----------------")
-        print(json.loads(json_response))
         return json_response
 
-        # payload = {
-        #     "model": "gpt-4-vision-preview",
-        #     "messages": [
-        #         {
-        #         "role": "user",
-        #         "content": [
-        #             {
-        #             "type": "text",
-        #             "text": f"{prompt}"
-        #             },
-        #             {
-        #             "type": "image_url",
-        #             "image_url": {
-        #                 "url": f"data:image/jpeg;base64,{img_base64}"
-        #             }
-        #             }
-        #         ]
-        #         }
-        #     ],
-        #     "max_tokens": 300
-        # }
-
-
-
-
-
-        # response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
-        
-        # response_json = response.json()
-        # # extract choices from response
-
-        # response_str = response_json['choices'][0]['message']['content']
-        # response_json = json.loads(response_str)
-        return response_json
 
 
 

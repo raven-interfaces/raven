@@ -13,7 +13,8 @@ class TelloController:
         self.tello = Tello()
         self.tello.connect()
         self.tello.streamon()
-        self.img_count = 0
+        self.img_count = 0  
+        print(self.tello.get_battery())
         pass
 
     def read_json(self, json_data: str) -> dict:
@@ -28,6 +29,7 @@ class TelloController:
             if (command["function"] == "takeoff") :
                 self.audio_module.play_snippet("takeoff")
                 self.tello.takeoff()
+                print("takeoff")
             
             elif (command["function"] == "move"):
                 amount = command["arguments"]["distance"]
@@ -35,10 +37,12 @@ class TelloController:
 
                 self.audio_module.play_snippet(f"move_{direction}")
                 self.tello.move(direction, amount)
+                print("move")
 
             elif (command["function"] == "land"):
                 self.audio_module.play_snippet("land")
                 self.tello.land()
+                print("land")
                 return "done"
             
             elif (command["function"] == "flip"):
@@ -53,16 +57,19 @@ class TelloController:
                 elif direction == "r":
                     self.audio_module.play_snippet("flip_right")
                 self.tello.flip(direction)
+                print("flip")
 
             elif (command["function"] == "rotate_clockwise"):
                 self.audio_module.play_snippet("turn_left")
                 degrees = command["arguments"]["degrees"]
                 self.tello.rotate_clockwise(degrees)
+                print("rotate cw")
 
             elif (command["function"] == "rotate_counter_clockwise"):
                 degrees = command["arguments"]["degrees"]
                 self.audio_module.play_snippet("turn_right")
                 self.tello.rotate_counter_clockwise(degrees)
+                print("rotate ccw")
 
 
             time.sleep(1)
@@ -80,8 +87,8 @@ class TelloController:
             self.tello.takeoff()
 
         elif command_list[0] == "move":
-            amount = command_list[1]
-            direction = command_list[2]
+            amount = int(command_list[2])
+            direction = command_list[1]
             self.audio_module.play_snippet(f"move_{direction}")
             self.tello.move(direction, amount)
 
@@ -96,9 +103,14 @@ class TelloController:
             self.tello.rotate_counter_clockwise(degrees)
 
         elif command_list[0] == "rotate_counter_clockwise":
-            degrees = command_list[1]
+            degrees = int(command_list[1])
             self.audio_module.play_snippet("turn_right")
             self.tello.rotate_counter_clockwise(degrees)
+
+        elif command_list[0] == "flip":
+            self.tello.flip("f")
+
+
 
         time.sleep(1)
             
@@ -121,7 +133,7 @@ class TelloController:
         img = cv2.merge((b, g, r))
         file_name = "images/picture" + str(self.img_count) + ".png"
         self.img_count += 1
-        cv2.imwrite("file_name", img)
+        cv2.imwrite(file_name, img)
         return img
 
     

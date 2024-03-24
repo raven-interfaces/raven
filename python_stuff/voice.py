@@ -134,6 +134,7 @@ class VoiceModule:
         # transcription = self.record_and_transcribe(10)
         transcription = self.record_and_transcribe()
 
+        print(transcription)
         speech_commands = transcription.text
 
         prompt = f'''
@@ -146,7 +147,7 @@ class VoiceModule:
                 
                 Args:
                     direction (str): Direction to flip. Options: "l" (left), "r" (right), 
-                                    "f" (forward, default), "b" (backward).
+                                    "f" (forward, default), "b" (back).
                 """
 
             def move(self, direction: str = "forward", distance: int = 50):
@@ -154,7 +155,7 @@ class VoiceModule:
                 Moves the drone in the specified direction by a certain distance.
                 
                 Args:
-                    direction (str): Direction to move. Options: "left", "right", "forward" (default), "backward", "up", "down".
+                    direction (str): Direction to move. Options: "left", "right", "forward" (default), "back", "up", "down".
                     distance (int): Distance to move in centimeters. Range: 20 to 500 (default 50).
                 """
 
@@ -206,7 +207,7 @@ class VoiceModule:
         '''
 
         response = client.chat.completions.create(
-        model="gpt-3.5-turbo-0125",
+        model="gpt-4-turbo-preview",
         response_format={ "type": "json_object" },
         messages=[
             # {"role": "system", "content": "You are a helpful assistant designed to output JSON."},

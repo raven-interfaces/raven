@@ -22,7 +22,8 @@ class AudioModule():
 
             while pygame.mixer.get_busy():
                 time.sleep(0.1)  # You can adjust the sleep time as needed
-        except:
+        except Exception as e:
+            print(e)
             print(f"Error playing {name}.mp3")
 
 
