@@ -51,6 +51,7 @@ class VoiceModule:
                         self.stop_recording()
         pygame.quit()
 
+
     def monitor_pygame_events(self):
         while self.is_recording:
             for event in pygame.event.get():
@@ -59,9 +60,11 @@ class VoiceModule:
                     return
             sd.sleep(100)  # Check for events periodically
 
+
     def save_recording(self, filename='recording.wav'):
         if self.recording is not None:
             write(filename, self.fs, self.recording)
+
 
     def record_and_transcribe(self):
         self.record_audio()

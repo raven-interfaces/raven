@@ -6,6 +6,7 @@ import cv2
 import base64 
 from trip_writer import write_to_trip, add_to_trip
 import os
+import time
 
 # tello_controller = TelloController()
 
@@ -14,8 +15,8 @@ def main():
     if os.path.exists("trip/notes.txt"):
         os.remove("trip/notes.txt")
 
-    if os.path.exists("trip/picture.png"):
-        os.remove("trip/picture.png")
+    if os.path.exists("trip/picture.jpg"):
+        os.remove("trip/picture.jpg")
 
 
     modality_type = input("Enter modality type: ")
@@ -34,11 +35,17 @@ def main():
         cap = cv2.VideoCapture(0)
         if not cap.isOpened():
             raise IOError("Cannot open webcam")
-        while True:
-            ret, frame = cap.read()
-            cv2.imshow('Webcam Feed', frame)
+        
 
-            file_name = "trip/picture.png"
+        while True:
+
+            print("capturing frame")
+            ret, frame = cap.read()
+            # cv2.imshow('Webcam Feed', frame)
+
+            if os.
+
+            file_name = "trip/picture.jpg"
             cv2.imwrite(file_name, frame)
 
             img_base64 = encode_img_base64(frame)
@@ -46,8 +53,18 @@ def main():
 
 
             commands_arr = commands_str.split(",")
-            add_to_trip(f"```{commands_arr[0]}(''.join({commands_arr[1:]}))```")
+            if "null" in commands_arr:
+                add_to_trip("null \n")
+            else:
+                method_name = commands_arr[0]
+                arguments = ",".join(commands_arr[1:])
+
+                add_to_trip(f"``` \n {method_name}({arguments})\n```")
+
             print(commands_str)
+
+
+            time.sleep(5)
 
 
             # run_commands_str(commands_str)
