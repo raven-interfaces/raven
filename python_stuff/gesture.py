@@ -27,20 +27,14 @@ class GestureModule:
 
         your output should be only one string, with the function name, and arguments comma separated. For example, if you want to move the drone forward by 50 cm, you should output "move,forward,50"
 
-        If the user is holding their palm facing towards you, it means you should return "land"
+        If the user is making an X with their arms, it means you should return "land"
         If the user has both hands up, it means you should return "takeoff"
 
-        If the user is pointing up with one finger, you should return "move,up,50".
-        If the user is pointing down with one finger, you should return "move,down,50".
-        If the user is pointing left with one finger, you should return "move,left,50".
-        If the user is pointing right with one finger, you should return "move,right,50".
-        If the user is pointing towards the camera with one finger, you should return "move,back,50".
-        If the user is pointing directly away (towards themselves) with one finger, you should return "move,forward,50".
-        
-        If the user is pointing with with three fingers to the right, you should return "rotate_clockwise,90".
-        If the user is pointing with three fingers to the left, you should return "rotate_counter_clockwise,90".
+        If the user is pointing up with one finger, you should return "move,forward,200".
+        If the user is pointing down with one finger, you should return "move,back,200".
 
-        If the user is making a "dab" dance move, you should return "flip,f".
+        If only the user's arm on the left side of the screen is held up, you should return rotate_counter_clockwise, 90.
+        If only the user's arm on the right side of the screen is held up(from the perspective of the camera) is held up, you should return rotate_clockwise, 90.
 
         If there is no gesture recognized, you should output "null"
 

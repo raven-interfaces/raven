@@ -15,6 +15,8 @@ class AudioModule():
 
 
     def play_snippet(self, name: str):
+        pygame.init()
+        pygame.mixer.init()
 
         try:
             sound = pygame.mixer.Sound(f'audio/{name}.mp3')
@@ -25,6 +27,8 @@ class AudioModule():
         except Exception as e:
             print(e)
             print(f"Error playing {name}.mp3")
+        
+        pygame.quit()
 
 
 # audio = AudioModule()

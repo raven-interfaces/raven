@@ -15,12 +15,13 @@ def main():
     if os.path.exists("trip/notes.txt"):
         os.remove("trip/notes.txt")
 
-    if os.path.exists("trip/picture.jpg"):
-        os.remove("trip/picture.jpg")
+    if os.path.exists("trip/picture_copy.jpg"):
+        os.remove("trip/picture_copy.jpg")
 
 
     modality_type = input("Enter modality type: ")
-    if modality_type == "voice":
+    if modality_type == "voice":            # content_placeholder.empty()
+
         voice = VoiceModule()
 
         while True:
@@ -31,15 +32,21 @@ def main():
             # run_commands(commands_json)
     
     elif modality_type == "gesture":
+        print("hello")
         gesture = GestureModule()
+        print("created gesutre module")
+
         cap = cv2.VideoCapture(0)
+
+        print("created webcam")
         if not cap.isOpened():
             raise IOError("Cannot open webcam")
         
         past_time = 0
+        prev_command_str = ""
         while True:
 
-            print("capturing frame")
+            # print("capturing frame")
             ret, frame = cap.read()
             # cv2.imshow('Webcam Feed', frame)
 
@@ -48,9 +55,15 @@ def main():
             file_name = "trip/picture.jpg"
             cv2.imwrite(file_name, frame)
 
-            if current_time - past_time > 5:
+            if current_time - past_time > 2:
                 img_base64 = encode_img_base64(frame)
                 commands_str = gesture.process_frame(img_base64)
+
+                if commands_str == prev_command_str:
+                    commands_str = "null"
+                
+                else:
+                    prev_command_str = commands_str
 
                 file_name_copy = "trip/picture_copy.jpg"
                 cv2.imwrite(file_name_copy, frame)
@@ -58,9 +71,8 @@ def main():
                 past_time = current_time
 
                 commands_arr = commands_str.split(",")
-                if "null" in commands_arr:
-                    add_to_trip("```\nnull\n```")
-                else:
+
+                if "null" not in commands_arr:
                     method_name = commands_arr[0]
                     arguments = ",".join(commands_arr[1:])
 
@@ -76,7 +88,7 @@ def main():
             cv2.waitKey(1)
 
 
-            # run_commands_str(commands_str)
+            run_commands_str(commands_str)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break

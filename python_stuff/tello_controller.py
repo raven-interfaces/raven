@@ -60,18 +60,18 @@ class TelloController:
                 print("flip")
 
             elif (command["function"] == "rotate_clockwise"):
-                self.audio_module.play_snippet("turn_left")
+                self.audio_module.play_snippet("turn_right")
                 degrees = command["arguments"]["degrees"]
                 self.tello.rotate_clockwise(degrees)
                 print("rotate cw")
 
             elif (command["function"] == "rotate_counter_clockwise"):
                 degrees = command["arguments"]["degrees"]
-                self.audio_module.play_snippet("turn_right")
+                self.audio_module.play_snippet("turn_left")
                 self.tello.rotate_counter_clockwise(degrees)
                 print("rotate ccw")
 
-            time.sleep(0.5)
+            time.sleep(0.1)
             
         return "continue"
 
@@ -83,6 +83,7 @@ class TelloController:
 
         if command_list[0] == "takeoff":
             self.audio_module.play_snippet("takeoff")
+            # self.audio_module.play_snippet("takeoff")
             self.tello.takeoff()
 
         elif command_list[0] == "move":
@@ -109,7 +110,7 @@ class TelloController:
         elif command_list[0] == "flip":
             self.tello.flip("f")
 
-        time.sleep(0.5)
+        # time.sleep(0.1)
     
         return "continue"
     

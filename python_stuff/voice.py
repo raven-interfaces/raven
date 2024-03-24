@@ -78,7 +78,7 @@ class VoiceModule:
                 )
 
         write_to_trip(f"## Voice Mode")
-        add_to_trip(f"```{transcription.text}```")
+        add_to_trip(f"{transcription.text}")
 
         return transcription
                
