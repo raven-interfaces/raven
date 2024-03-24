@@ -43,7 +43,6 @@ def main():
             ret, frame = cap.read()
             # cv2.imshow('Webcam Feed', frame)
 
-            if os.
 
             file_name = "trip/picture.jpg"
             cv2.imwrite(file_name, frame)
