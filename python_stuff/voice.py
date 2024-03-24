@@ -23,28 +23,32 @@ class VoiceModule:
 
     def stop_recording(self):
         self.is_recording = False
-        if self.record_thread is not None:
-            self.record_thread.join()
         sd.stop()
         pygame.quit()
         print("Recording finished")
 
     def record_audio(self):
-        # Initialize Pygame for keyboard handling
         pygame.init()
-        screen = pygame.display.set_mode((100, 100))  # Minimal window
+        screen = pygame.display.set_mode((100, 100))
         pygame.display.set_caption("Press any key to start recording")
 
         print("Waiting for keypress to start recording...")
-        waiting_for_start = True
-        while waiting_for_start:
+        waiting_for_start = True  # Initialize the variable before the loop
+        running = True
+        while running:
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
-                    waiting_for_start = False
-                    self.start_recording()
-                    self.record_thread = threading.Thread(target=self.monitor_pygame_events)
-                    self.record_thread.start()
-                    return
+                    if waiting_for_start:
+                        self.start_recording()
+                        waiting_for_start = False  # Change its value after starting the recording
+                    else:
+                        self.stop_recording()
+                        running = False
+                elif event.type == pygame.QUIT:
+                    running = False
+                    if not waiting_for_start:  # Ensure recording is stopped only if it has started
+                        self.stop_recording()
+        pygame.quit()
 
     def monitor_pygame_events(self):
         while self.is_recording:
@@ -56,23 +60,21 @@ class VoiceModule:
 
     def save_recording(self, filename='recording.wav'):
         if self.recording is not None:
-            write(filename, self.fs, self.recording)  # Save as WAV file
+            write(filename, self.fs, self.recording)
 
     def record_and_transcribe(self):
-        # Record audio
         self.record_audio()
-        
-        # Use a temporary file to avoid manual cleanup
         with tempfile.NamedTemporaryFile(suffix='.wav') as tmpfile:
             self.save_recording(filename=tmpfile.name)
-
-            # Open the temporary file in 'rb' mode for transcription
             with open(tmpfile.name, 'rb') as audio_file:
+                # Ensure you have a way to define or import `client`
                 transcription = client.audio.transcriptions.create(
                     model="whisper-1", 
                     file=audio_file
                 )
-                return transcription
+
+        return transcription
+               
 
             # Assume transcription logic here
 
