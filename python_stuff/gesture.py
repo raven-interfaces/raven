@@ -73,16 +73,15 @@ class GestureModule:
         If the user is pointing down with one finger, the direction should be down.
         If the user is pointing left with one finger, the direction should be left.
         If the user is pointing right with one finger, the direction should be right.
+        If the user is pointing towards the camera with one finger, the direction should be backward.
+        If the user is pointing directly away (towards themselves) with one finger, the direction should be forward.
 
         
         If the user is pointing with with three fingers, it means you should turn in the direction the user is pointing.
         If the user is pointing with three fingers to the right, the direction should be clockwise.
         If the user is pointing with three fingers to the left, the direction should be counter-clockwise.
         
-        If the user is making a circle with their hands, it means you should do a forward flip.
-
-        If the user is holding up a fist, it means you should do a backward flip.
-
+        If the user is making a dab dance move motion, it means you should do a forward flip.
         
         Please also ensure that the JSON is structured in the following form:
 
