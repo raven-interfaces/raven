@@ -6,6 +6,7 @@ import os
 import tempfile
 import pygame
 import threading
+from trip_writer import write_to_trip, add_to_trip
 
 client = OpenAI(api_key=OPENAI_KEY)
 
@@ -72,6 +73,9 @@ class VoiceModule:
                     model="whisper-1", 
                     file=audio_file
                 )
+
+        write_to_trip(f"## Voice Mode")
+        add_to_trip(f"```{transcription.text}```")
 
         return transcription
                

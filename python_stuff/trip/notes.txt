@@ -1,0 +1,15 @@
+## Voice Mode
+```Can you go forward 200 centimeters?```
+```
+{
+    "commands": [
+        {
+            "function": "move",
+            "arguments": {
+                "direction": "forward",
+                "distance": 200
+            }
+        }
+    ]
+}
+```
