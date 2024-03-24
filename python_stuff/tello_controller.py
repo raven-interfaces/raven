@@ -40,6 +40,19 @@ class TelloController:
                 self.audio_module.play_snippet("land")
                 self.tello.land()
                 return "done"
+            
+            elif (command["function"] == "flip"):
+                direction = command["arguments"]["direction"]
+
+                if direction == "f":
+                    self.audio_module.play_snippet("flip_forward")
+                elif direction == "b":
+                    self.audio_module.play_snippet("flip_backward")
+                elif direction == "l":
+                    self.audio_module.play_snippet("flip_left")
+                elif direction == "r":
+                    self.audio_module.play_snippet("flip_right")
+                self.tello.flip(direction)
 
             elif (command["function"] == "rotate_clockwise"):
                 self.audio_module.play_snippet("turn_left")
