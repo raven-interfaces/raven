@@ -25,6 +25,12 @@ def main():
         while True:
             ret, frame = cap.read()
             cv2.imshow('Webcam Feed', frame)
+
+            file_name = "images/picture" + str(tello_controller.img_count) + ".png"
+            tello_controller.img_count += 1
+
+            cv2.imwrite(file_name, frame)
+
             img_base64 = encode_img_base64(frame)
             commands_str = gesture.process_frame(img_base64)
             print(commands_str)
@@ -53,7 +59,6 @@ def run_commands_str(commands_str):
 def encode_img_base64(img):
     _, img_encoded = cv2.imencode('.jpg', img)
     return base64.b64encode(img_encoded).decode('utf-8')
-
 
 
 if __name__ == "__main__":
