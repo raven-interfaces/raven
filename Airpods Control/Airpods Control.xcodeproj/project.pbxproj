@@ -13,6 +13,9 @@
 		0F3F24672BAB8BD000888C8D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0F3F24662BAB8BD000888C8D /* Preview Assets.xcassets */; };
 		0F3F246F2BAB8DF300888C8D /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F3F246E2BAB8DF300888C8D /* ViewModel.swift */; };
 		0F88B5A52BAF45DB006B5292 /* SocketManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F88B5A42BAF45DB006B5292 /* SocketManager.swift */; };
+		0F88B5B52BB027EE006B5292 /* texture.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F88B5B22BB027EE006B5292 /* texture.png */; };
+		0F88B5B62BB027EE006B5292 /* B_787_8.dae in Resources */ = {isa = PBXBuildFile; fileRef = 0F88B5B32BB027EE006B5292 /* B_787_8.dae */; };
+		0F88B5B72BB027EE006B5292 /* texture_ref.png in Resources */ = {isa = PBXBuildFile; fileRef = 0F88B5B42BB027EE006B5292 /* texture_ref.png */; };
 		1E481E46DF2CF9BE4822D6F2 /* Pods_Airpods_Control.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C1D77942EC83B97092C907CA /* Pods_Airpods_Control.framework */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +28,9 @@
 		0F3F24682BAB8BD000888C8D /* Airpods_Control.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Airpods_Control.entitlements; sourceTree = "<group>"; };
 		0F3F246E2BAB8DF300888C8D /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		0F88B5A42BAF45DB006B5292 /* SocketManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketManager.swift; sourceTree = "<group>"; };
+		0F88B5B22BB027EE006B5292 /* texture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texture.png; sourceTree = "<group>"; };
+		0F88B5B32BB027EE006B5292 /* B_787_8.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = B_787_8.dae; sourceTree = "<group>"; };
+		0F88B5B42BB027EE006B5292 /* texture_ref.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texture_ref.png; sourceTree = "<group>"; };
 		44BF2FCC6BDAF662301D6AF1 /* Pods-Airpods Control.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Airpods Control.release.xcconfig"; path = "Target Support Files/Pods-Airpods Control/Pods-Airpods Control.release.xcconfig"; sourceTree = "<group>"; };
 		AAF7CDAAC95AD51DE2429ACD /* Pods-Airpods Control.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Airpods Control.debug.xcconfig"; path = "Target Support Files/Pods-Airpods Control/Pods-Airpods Control.debug.xcconfig"; sourceTree = "<group>"; };
 		C1D77942EC83B97092C907CA /* Pods_Airpods_Control.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Airpods_Control.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -70,6 +76,9 @@
 				0F3F24652BAB8BD000888C8D /* Preview Content */,
 				0F3F246E2BAB8DF300888C8D /* ViewModel.swift */,
 				0F88B5A42BAF45DB006B5292 /* SocketManager.swift */,
+				0F88B5B32BB027EE006B5292 /* B_787_8.dae */,
+				0F88B5B42BB027EE006B5292 /* texture_ref.png */,
+				0F88B5B22BB027EE006B5292 /* texture.png */,
 			);
 			path = "Airpods Control";
 			sourceTree = "<group>";
@@ -159,7 +168,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F88B5B52BB027EE006B5292 /* texture.png in Resources */,
+				0F88B5B62BB027EE006B5292 /* B_787_8.dae in Resources */,
 				0F3F24672BAB8BD000888C8D /* Preview Assets.xcassets in Resources */,
+				0F88B5B72BB027EE006B5292 /* texture_ref.png in Resources */,
 				0F3F24642BAB8BD000888C8D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

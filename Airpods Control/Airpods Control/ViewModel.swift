@@ -55,7 +55,7 @@ extension ViewModel {
         let pitch = motion.attitude.pitch
         let roll = motion.attitude.roll
         
-        let pitchThreshold = 0.25
+        let pitchThreshold = 0.20
         let rollThreshold = 0.25
         
         if pitch > (pitchThreshold - 0.05){
@@ -118,7 +118,8 @@ extension ViewModel {
         socketManager?.sendCommand(command: "rc 0 0 0 -80")
     }
     func stop() {
-        socketManager?.sendCommand(command: "stop")
+//        socketManager?.sendCommand(command: "stop")
+        socketManager?.sendCommand(command: "rc 0 0 0 0")
     }
     func emergency() {
         socketManager?.sendCommand(command: "emergency")
