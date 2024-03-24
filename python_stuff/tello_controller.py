@@ -2,6 +2,7 @@ from djitellopy import Tello
 import cv2
 import json
 from audio import AudioModule
+import base64
 
 
 class TelloController:
@@ -10,6 +11,7 @@ class TelloController:
         self.audio_module = AudioModule()
         self.tello = Tello()
         self.tello.connect()
+        self.tello.streamon()
         pass
 
     def read_json(self, json_data: str) -> dict:
@@ -46,22 +48,24 @@ class TelloController:
                 self.audio_module.play_snippet("turn_right")
                 self.tello.rotate_counter_clockwise(degrees)
 
-    def land(self):
-        self.tello.land()
+    def get_camera_frame(self):
+        img = self.tello.get_frame_read().frame
+        cv2.imshow("results", img)
+        return img
+        
 
-    def stop(self):
-        self.tello.stop()
-
-    def emergency(self):
-        self.tello.emergency()
+    def get_camera_frame_base64(self):
+        img = self.get_camera_frame()
+        _, img_encoded = cv2.imencode('.jpg', img)
+        return base64.b64encode(img_encoded).decode('utf-8')
+        
+        
 
     
 # me = self.tello.Tello()
-# #cap = cv2.VideoCapture(0)
 # me.connect()
 # print(me.get_battery())
 # me.streamon()
-
 
 # while True:
 #     img = me.get_frame_read().frame

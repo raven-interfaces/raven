@@ -16,8 +16,8 @@ class GestureModule:
             return base64.b64encode(image_file.read()).decode('utf-8')
 
 
-    def process_frame(self, filename):
-        base64_image = self.encode_image(filename)
+    def process_frame(self, base64_image):
+        
 
         headers = {"Content-Type": "application/json", "Authorization": f"Bearer {OPENAI_KEY}"}
 
@@ -126,5 +126,6 @@ class GestureModule:
 
     
     def run_gesture_step(self, filename):
-        response = self.process_frame(filename)
+        base64_image = self.encode_image(filename)
+        response = self.process_frame(base64_image)
         print(response)
