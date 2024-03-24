@@ -55,7 +55,43 @@ class TelloController:
             time.sleep(1)
             
         return "continue"
+
+
+
+    def control_tello_string(self, command_str: str) -> str:
+        command_str = command_str.strip()
+        command_list = [item.strip() for item in command_str.split(',')]
+
+        if command_list[0] == "takeoff":
+            self.audio_module.play_snippet("takeoff")
+            self.tello.takeoff()
+
+        elif command_list[0] == "move":
+            amount = command_list[1]
+            direction = command_list[2]
+            self.audio_module.play_snippet(f"move_{direction}")
+            self.tello.move(direction, amount)
+
+        elif command_list[0] == "land":
+            self.audio_module.play_snippet("land")
+            self.tello.land()
+            return "done"
+
+        elif command_list[0] == "rotate_clockwise":
+            degrees = command_list[1]
+            self.audio_module.play_snippet("turn_right")
+            self.tello.rotate_counter_clockwise(degrees)
+
+        elif command_list[0] == "rotate_counter_clockwise":
+            degrees = command_list[1]
+            self.audio_module.play_snippet("turn_right")
+            self.tello.rotate_counter_clockwise(degrees)
+
+        time.sleep(1)
+            
+        return "continue"
     
+
 
     def run_camera_buffer(self):
         for i in range(1000):
